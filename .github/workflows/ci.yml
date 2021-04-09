@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+
+
+jobs:
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Docker Login
+        run: docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Docker Image
+        run: docker build -t cortezaproject/lftp:latest .
+
+      - name: Push Docker Image
+        run: docker push cortezaproject/lftp:latest
+
+      - name: Docker Logout
+        run: docker logout

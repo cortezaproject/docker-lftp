@@ -12,26 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG ALPINE_VERSION=3.11.3
+ARG ALPINE_VERSION=3.13
 
 FROM alpine:${ALPINE_VERSION}
 
 ARG LFTP_VERSION=4.9.1-r0
-RUN apk --no-cache add ca-certificates openssh
-RUN apk --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main add lftp=${LFTP_VERSION}
-
-# Labels: http://label-schema.org
-ARG BUILD_DATE
-ARG VCS_REF
-ARG VERSION
-LABEL org.label-schema.build-date=$BUILD_DATE \
-      org.label-schema.name="toolhous-lftp" \
-      org.label-schema.description="File transfer container, powered by LFTP" \
-      org.label-schema.url="https://github.com/toolhouse/docker-lftp" \
-      org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/toolhouse/docker-lftp" \
-      org.label-schema.version=$VERSION \
-      org.label-schema.schema-version="1.0"
+RUN apk --no-cache add ca-certificates openssh lftp
 
 ENV LOCAL_PATH /files
 VOLUME ["$LOCAL_PATH"]
